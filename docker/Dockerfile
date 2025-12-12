@@ -34,6 +34,7 @@ RUN \
     npm \
     clean-install \
     --no-audit
+# RUN npx update-browserslist-db@latest
 RUN \
     USE_SYSTEM_FONTS=1 \
     npm \
