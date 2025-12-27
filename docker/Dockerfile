@@ -53,6 +53,7 @@ RUN \
 
 FROM debian:13-slim AS runtime
 
+LABEL org.opencontainers.image.source=https://github.com/ldotlopez/jellyfin-tizen-installer
 
 # Install packages that will be needed by tizen-studio inside the container
 ENV DEBIAN_FRONTEND=noninteractive
