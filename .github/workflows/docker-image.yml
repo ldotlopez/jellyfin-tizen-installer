@@ -31,15 +31,23 @@ jobs:
 
       - name: Extract tag name
         id: vars
-        run: echo "tag=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+        run: |
+          # Full tag: v10.11.5.001
+          FULL_TAG=${GITHUB_REF#refs/tags/}
+
+          # Stripped tag: v10.11.5 (removes the last .suffix)
+          STRIPPED_TAG=${FULL_TAG%.*}
+
+          echo "repo_tag=${FULL_TAG}" >> $GITHUB_OUTPUT
+          echo "jellyfin_tag=${STRIPPED_TAG}" >> $GITHUB_OUTPUT
 
       - name: Build and push image
         uses: docker/build-push-action@v5
         with:
           context: docker
-          # build-args: |
+          build-args: |
+            JELLYFIN_TAG=${{ steps.vars.outputs.jellyfin_tag }}
           #   # JELLYFIN_BRANCH=release-10.11.z
-          #   JELLYFIN_BRANCH=release-${{ steps.vars.outputs.tag }}
           #   SOME_OTHER_VAR=hello-world
           push: true
           # Note: repository name is converted to lowercase for GHCR compatibility

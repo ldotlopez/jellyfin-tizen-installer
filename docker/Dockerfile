@@ -3,8 +3,8 @@
 
 FROM node:20 AS builder
 
-ARG JELLYFIN_BRANCH=release-10.11.z
-RUN test -n "${JELLYFIN_BRANCH}" || (echo "JELLYFIN_BRANCH required" && exit 1)
+ARG JELLYFIN_TAG=v10.11.5
+RUN test -n "${JELLYFIN_TAG}" || (echo "JELLYFIN_TAG required" && exit 1)
 
 # Create non-root user
 RUN useradd --home-dir /build --create-home --shell /bin/bash builder
@@ -16,7 +16,7 @@ USER builder
 RUN \
     git clone \
     --depth 1 \
-    --branch "${JELLYFIN_BRANCH}" \
+    --branch "${JELLYFIN_TAG}" \
     https://github.com/jellyfin/jellyfin-web.git \
     /build/jellyfin-web
 

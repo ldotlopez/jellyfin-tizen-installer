@@ -25,14 +25,14 @@ if ! source "${__DIR__}/.env"; then
 
 fi
 set -e
-for var in CERT_ALIAS CERT_COUNTRY CERT_FILENAME CERT_NAME CERT_PASSWORD JELLYFIN_BRANCH TIZEN_TV_IP; do
+for var in CERT_ALIAS CERT_COUNTRY CERT_FILENAME CERT_NAME CERT_PASSWORD JELLYFIN_TAG TIZEN_TV_IP; do
     if [[ -z "${!var:-}" ]]; then
         error "$var environment variable is missing, check '${__DIR__}/.env'" >&2
         exit 1
     fi
 done
 
-docker build --tag "${DOCKER_IMAGE_NAME}:${JELLYFIN_BRANCH}" "${__DIR__}/docker" || {
+docker build --tag "${DOCKER_IMAGE_NAME}:${JELLYFIN_TAG}" "${__DIR__}/docker" || {
     error "unable to run docker build"
     exit 1
 }
@@ -48,4 +48,4 @@ docker run --rm -it \
     -e "TIZEN_TV_IP=${TIZEN_TV_IP}" \
     -v "${__DIR__}/cert:/cert" \
     -v "${__DIR__}/build:/build" \
-    "${DOCKER_IMAGE_NAME}:${JELLYFIN_BRANCH}"
+    "${DOCKER_IMAGE_NAME}:${JELLYFIN_TAG}"
