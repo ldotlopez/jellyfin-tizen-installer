@@ -68,7 +68,7 @@ CERT_NAME=Jellyfin
 CERT_PASSWORD=your_secure_password
 
 # Jellyfin version to install
-JELLYFIN_BRANCH=release-10.11.z
+JELLYFIN_TAG=v10.11.5
 
 # Docker image settings
 DOCKER_IMAGE_NAME=jellyfin-tizen-installer
@@ -110,7 +110,7 @@ After installation completes:
 Build the image:
 ```bash
 docker build \
-    --build-arg JELLYFIN_BRANCH=release-10.11.z \
+    --build-arg JELLYFIN_TAG=release-10.11.z \
     -t jellyfin-tizen-installer \
     docker/
 ```
@@ -152,16 +152,16 @@ Then run `/run.sh` manually inside the container.
 
 ### Using Different Jellyfin Versions
 
-Change the `JELLYFIN_BRANCH` in your `.env` file:
+Change the `JELLYFIN_TAG` in your `.env` file:
 ```bash
 # For latest stable release
-JELLYFIN_BRANCH=release-10.11.z
+JELLYFIN_TAG=release-10.11.z
 
 # For specific version
-JELLYFIN_BRANCH=v10.8.13
+JELLYFIN_TAG=v10.8.13
 
 # For development version
-JELLYFIN_BRANCH=master
+JELLYFIN_TAG=master
 ```
 
 ## Certificate Management
@@ -227,7 +227,7 @@ To create a new certificate:
 - `CERT_COUNTRY`: Two-letter country code (e.g., US, GB, DE)
 - `CERT_NAME`: Certificate name
 - `CERT_PASSWORD`: Certificate password
-- `JELLYFIN_BRANCH`: Jellyfin version branch to build
+- `JELLYFIN_TAG`: Jellyfin version to build
 
 ### Optional:
 - `TIZEN_TV_IP`: TV IP address (can be set at runtime)
