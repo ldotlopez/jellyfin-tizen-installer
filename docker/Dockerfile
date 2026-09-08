@@ -1,9 +1,9 @@
 ## Base builder
 #
 
-FROM node:20 AS builder
+FROM node:26 AS builder
 
-ARG JELLYFIN_TAG=v10.11.5
+ARG JELLYFIN_TAG="v12.0"
 RUN test -n "${JELLYFIN_TAG}" || (echo "JELLYFIN_TAG required" && exit 1)
 
 # Create non-root user

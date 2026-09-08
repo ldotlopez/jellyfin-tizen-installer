@@ -32,7 +32,7 @@ for var in CERT_ALIAS CERT_COUNTRY CERT_FILENAME CERT_NAME CERT_PASSWORD JELLYFI
     fi
 done
 
-docker build --tag "${DOCKER_IMAGE_NAME}:${JELLYFIN_TAG}" "${__DIR__}/docker" || {
+docker build --build-arg JELLYFIN_TAG=$JELLYFIN_TAG --tag "${DOCKER_IMAGE_NAME}:${JELLYFIN_TAG}" "${__DIR__}/docker" || {
     error "unable to run docker build"
     exit 1
 }
