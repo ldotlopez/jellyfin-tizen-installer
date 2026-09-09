@@ -4,7 +4,7 @@ Docker-based installer to build and deploy Jellyfin to Samsung Tizen TVs.
 
 This is a fork/adaptation of the original work. All credit for the initial concept and implementation goes to the original authors.
 
-[![Publish to GHCR](https://github.com/ldotlopez/jellyfin-tizen-installer/actions/workflows/publish-ghcr.yml/badge.svg)](https://github.com/ldotlopez/jellyfin-tizen-installer/actions/workflows/publish-ghcr.yml)
+[![Publish to GHCR](https://github.com/ldotlopez/jellyfin-tizen-installer/actions/workflows/publish-ghcr.yml/badge.svg)](https://github.com/ldotlopez/jellyfin-tizen-installer/actions/workflows/publish-ghcr.yml) [![CodeQL](https://github.com/ldotlopez/jellyfin-tizen-installer/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/ldotlopez/jellyfin-tizen-installer/actions/workflows/github-code-scanning/codeql)
 
 <!-- Sponsors -->
 <a href="https://www.buymeacoffee.com/zepolson" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 30px !important;width: 105px !important;" ></a>
