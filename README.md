@@ -86,6 +86,8 @@ TIZEN_TV_IP=192.168.1.100
 **Important**: Keep your `.env` file secure as it contains your certificate password.
 
 ### 3. Run Installation
+
+#### Option A: Using the Install Script (Builds Locally)
 ```bash
 ./install.sh
 ```
@@ -102,6 +104,31 @@ The script will:
 4. Build and package the Jellyfin app
 5. Connect to your TV and install the app
 
+#### Option B: Using Pre-built Docker Image (GHCR)
+You can also run the pre-built image directly from GitHub Container Registry without needing to build it locally.
+
+Using the `latest` tag:
+```bash
+docker run --rm -it \
+    --env-file .env \
+    -e PUID=$(id -u) \
+    -e PGID=$(id -g) \
+    -v "$(pwd)/cert:/cert" \
+    -v "$(pwd)/build:/build" \
+    ghcr.io/ldotlopez/jellyfin-tizen-installer:latest
+```
+
+Or using a specific release version (e.g. `v12.0-r001`):
+```bash
+docker run --rm -it \
+    --env-file .env \
+    -e PUID=$(id -u) \
+    -e PGID=$(id -g) \
+    -v "$(pwd)/cert:/cert" \
+    -v "$(pwd)/build:/build" \
+    ghcr.io/ldotlopez/jellyfin-tizen-installer:v12.0-r001
+```
+
 ### 4. Launch Jellyfin
 
 After installation completes:
@@ -110,6 +137,13 @@ After installation completes:
 3. Configure it to connect to your Jellyfin server
 
 ## Advanced Usage
+
+### Pre-built Images from GHCR
+
+Pre-built Docker images are automatically published to the GitHub Container Registry (GHCR):
+
+- `ghcr.io/ldotlopez/jellyfin-tizen-installer:latest`
+- `ghcr.io/ldotlopez/jellyfin-tizen-installer:v12.0-r001` (and other tagged releases)
 
 ### Release Tag Schema
 
@@ -185,7 +219,7 @@ docker run --rm -it \
     -v "$(pwd)/cert:/cert" \
     -v "$(pwd)/build:/build" \
     --entrypoint /bin/bash \
-    jellyfin-tizen-installer
+    ghcr.io/ldotlopez/jellyfin-tizen-installer:latest
 ```
 
 Then run `/run.sh` manually inside the container.
