@@ -3,9 +3,7 @@ name: Publish to GHCR
 on:
   push:
     tags:
-      # - 'v[0-9]+.[0-9]+.[0-9]+'
-      - 'release-*'
-      - 'v*'
+      - "v*-r*"
 
 # Required permissions to push to GHCR
 permissions:
@@ -32,14 +30,18 @@ jobs:
       - name: Extract tag name
         id: vars
         run: |
-          # Full tag: v10.11.5.001
-          FULL_TAG=${GITHUB_REF#refs/tags/}
+          set -euo pipefail
 
-          # Stripped tag: v10.11.5 (removes the last .suffix)
-          STRIPPED_TAG=${FULL_TAG%.*}
+          FULL_TAG="${GITHUB_REF#refs/tags/}"
+          if [[ ! "${FULL_TAG}" =~ ^v[0-9]+(\.[0-9]+)+-r[0-9]{3}$ ]]; then
+            echo "Invalid release tag '${FULL_TAG}'. Expected v<Jellyfin version>-r<project revision>." >&2
+            exit 1
+          fi
 
-          echo "repo_tag=${FULL_TAG}" >> $GITHUB_OUTPUT
-          echo "jellyfin_tag=${STRIPPED_TAG}" >> $GITHUB_OUTPUT
+          JELLYFIN_TAG="${FULL_TAG%-*}"
+
+          echo "repo_tag=${FULL_TAG}" >> "$GITHUB_OUTPUT"
+          echo "jellyfin_tag=${JELLYFIN_TAG}" >> "$GITHUB_OUTPUT"
 
       - name: Build and push image
         uses: docker/build-push-action@v5

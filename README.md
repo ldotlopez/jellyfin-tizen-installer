@@ -111,12 +111,45 @@ After installation completes:
 
 ## Advanced Usage
 
+### Release Tag Schema
+
+Published images use a composite Git tag:
+
+```text
+v<Jellyfin version>-r<project revision>
+```
+
+The project revision is a zero-padded three-digit number (`001`, `002`, ...).
+Using a fixed-width suffix keeps the upstream Jellyfin tag unambiguous.
+
+For example:
+
+| Repository tag | Jellyfin tag used for the build | Meaning |
+| --- | --- | --- |
+| `v10.11.4-r001` | `v10.11.4` | First installer release for Jellyfin 10.11.4 |
+| `v10.11.4-r002` | `v10.11.4` | Second installer release for the same Jellyfin tag |
+| `v12.0-r001` | `v12.0` | First installer release for Jellyfin 12.0 |
+
+The final revision belongs to this repository and can be incremented
+when installer or packaging changes are released without changing the
+Jellyfin source tag. The workflow is triggered by tags matching the broad
+`v*-r*` shape, then validates the complete schema before building. It passes
+the Jellyfin portion to the Docker build as `JELLYFIN_TAG` and uses the
+complete tag for the GHCR image tag.
+
+Create a release by tagging the desired commit and pushing the tag:
+
+```bash
+git tag v10.11.4-r001
+git push origin v10.11.4-r001
+```
+
 ### Manual Build and Run
 
 Build the image:
 ```bash
 docker build \
-    --build-arg JELLYFIN_TAG=release-10.11.z \
+    --build-arg JELLYFIN_TAG=v10.11.5 \
     -t jellyfin-tizen-installer \
     docker/
 ```
