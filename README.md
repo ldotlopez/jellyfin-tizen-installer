@@ -4,7 +4,7 @@ Docker-based installer to build and deploy Jellyfin to Samsung Tizen TVs.
 
 This is a fork/adaptation of the original work. All credit for the initial concept and implementation goes to the original authors.
 
-[![Publish to GHCR](https://github.com/ldotlopez/txtflar/actions/workflows/publish-ghcr.yml/badge.svg)](https://github.com/ldotlopez/txtflar/actions/workflows/.yml)
+[![Publish to GHCR](https://github.com/ldotlopez/jellyfin-tizen-installer/actions/workflows/publish-ghcr.yml/badge.svg)](https://github.com/ldotlopez/jellyfin-tizen-installer/actions/workflows/publish-ghcr.yml)
 
 <!-- Sponsors -->
 <a href="https://www.buymeacoffee.com/zepolson" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 30px !important;width: 105px !important;" ></a>
@@ -74,7 +74,7 @@ CERT_NAME=Jellyfin
 CERT_PASSWORD=your_secure_password
 
 # Jellyfin version to install
-JELLYFIN_TAG=v10.11.5
+JELLYFIN_TAG=v12.0
 
 # Docker image settings
 DOCKER_IMAGE_NAME=jellyfin-tizen-installer
@@ -120,22 +120,23 @@ v<Jellyfin version>-r<project revision>
 ```
 
 The project revision is a zero-padded three-digit number (`001`, `002`, ...).
-Using a fixed-width suffix keeps the upstream Jellyfin tag unambiguous.
+It is an independent, monotonically increasing revision for this project, not
+a revision counter that resets for each Jellyfin release. Using a fixed-width
+suffix keeps the upstream Jellyfin tag unambiguous.
 
 For example:
 
 | Repository tag | Jellyfin tag used for the build | Meaning |
 | --- | --- | --- |
-| `v10.11.4-r001` | `v10.11.4` | First installer release for Jellyfin 10.11.4 |
-| `v10.11.4-r002` | `v10.11.4` | Second installer release for the same Jellyfin tag |
-| `v12.0-r001` | `v12.0` | First installer release for Jellyfin 12.0 |
+| `v10.11.4-r001` | `v10.11.4` | Project revision 001 targeting Jellyfin 10.11.4 |
+| `v10.11.4-r002` | `v10.11.4` | Project revision 002 targeting Jellyfin 10.11.4 |
+| `v12.0-r003` | `v12.0` | Project revision 003 targeting Jellyfin 12.0 |
 
-The final revision belongs to this repository and can be incremented
-when installer or packaging changes are released without changing the
-Jellyfin source tag. The workflow is triggered by tags matching the broad
-`v*-r*` shape, then validates the complete schema before building. It passes
-the Jellyfin portion to the Docker build as `JELLYFIN_TAG` and uses the
-complete tag for the GHCR image tag.
+Always increment the project revision for each new project release, regardless
+of whether the Jellyfin source tag changes. The workflow is triggered by tags
+matching the broad `v*-r*` shape, then validates the complete schema before
+building. It passes the Jellyfin portion to the Docker build as
+`JELLYFIN_TAG` and uses the complete tag for the GHCR image tag.
 
 Create a release by tagging the desired commit and pushing the tag:
 
@@ -149,7 +150,7 @@ git push origin v10.11.4-r001
 Build the image:
 ```bash
 docker build \
-    --build-arg JELLYFIN_TAG=v10.11.5 \
+    --build-arg JELLYFIN_TAG=v12.0 \
     -t jellyfin-tizen-installer \
     docker/
 ```
